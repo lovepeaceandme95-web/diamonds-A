@@ -709,25 +709,7 @@
     // 其他事件
     resetBtn.addEventListener('click', resetHP);
 
-    // 鼠标视差（桌面端）
-    bossFrame.addEventListener('mousemove', parallaxMouse);
-    bossFrame.addEventListener('mouseleave', () => {
-      bossFrame.style.transform = '';
-      const bg = bossFrame.querySelector('.boss-bg');
-      const ch = bossFrame.querySelector('.boss-char');
-      bg.style.transform = 'translateZ(-30px) scale(1.04)';
-      ch.style.transform = 'translateZ(30px)';
-    });
-
-    // 陀螺仪按钮（容错：若页面无按钮则跳过）
-    if (document.getElementById('gyroToggleBtn')) {
-      gyroToggleBtn.addEventListener('click', async () => {
-        if (gyroEnabled) disableGyro();
-        else {
-          const ok = await enableGyro();
-          if (ok) {
-            const once = (ev) => { calibrateGyroOnce(ev); window.removeEventListener('deviceorientation', once); };
-            window.addEventListener('deviceorientation', once);
+   
           }
         }
       });
@@ -753,3 +735,4 @@
 </body>
 
 </html>
+
