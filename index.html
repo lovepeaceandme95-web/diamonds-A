@@ -380,7 +380,7 @@
     <div class="header">
       <div>
         <div class="title">diamonds A</div>
-        <div class="sub">敌人阶段：死亡前允许玩家互相直接攻击</div>
+        <div class="sub">敌人阶段：死前允许玩家直接互相攻击</div>
       </div>
       <span class="pill" id="hpCounter">HP 5 / 5</span>
     </div>
@@ -709,7 +709,25 @@
     // 其他事件
     resetBtn.addEventListener('click', resetHP);
 
-   
+    // 鼠标视差（桌面端）
+    bossFrame.addEventListener('mousemove', parallaxMouse);
+    bossFrame.addEventListener('mouseleave', () => {
+      bossFrame.style.transform = '';
+      const bg = bossFrame.querySelector('.boss-bg');
+      const ch = bossFrame.querySelector('.boss-char');
+      bg.style.transform = 'translateZ(-30px) scale(1.04)';
+      ch.style.transform = 'translateZ(30px)';
+    });
+
+    // 陀螺仪按钮（容错：若页面无按钮则跳过）
+    if (document.getElementById('gyroToggleBtn')) {
+      gyroToggleBtn.addEventListener('click', async () => {
+        if (gyroEnabled) disableGyro();
+        else {
+          const ok = await enableGyro();
+          if (ok) {
+            const once = (ev) => { calibrateGyroOnce(ev); window.removeEventListener('deviceorientation', once); };
+            window.addEventListener('deviceorientation', once);
           }
         }
       });
@@ -733,6 +751,4 @@
     spawnDust(42);
   </script>
 </body>
-
 </html>
-
